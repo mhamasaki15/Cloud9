@@ -1,0 +1,1 @@
+//Began the JS file for genereating and displaying the word count for Cloud9
