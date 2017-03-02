@@ -38,7 +38,8 @@
                 var instance = new Mark(document.querySelector("div.context"));
                 var word = "<?php echo $word ?>";
                 instance.mark(word, {
-                    accuracy: "exactly"
+                    accuracy: "exactly",
+                    limiters: ["(", ")"] 
                 });
 			}
         </script>
