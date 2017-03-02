@@ -45,7 +45,7 @@
     position: fixed;
     left: 35%;
     top: 10%;
-    max-width: 400px;
+    max-width: 600px;
 }
 
 #lyrics {
@@ -109,7 +109,7 @@ pageTitle {
           <br>
           <br>
 	  <input type="submit" value="Share" style="button">
-	  
+
 	  <input type="submit" value="Search" style="button">
       </form>
 
