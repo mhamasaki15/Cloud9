@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('homepage');
+    return view('homepage', ['textString' => "", 'artistSuggestions' => []]);
 });
 
 Route::get('/api/artist/{name}', 'MyController@getArtistSuggestions')->name('suggestions.get');
