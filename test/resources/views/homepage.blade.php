@@ -11,6 +11,9 @@
         <script type = "text/javascript">
 
             var name = "";
+
+            var ar = "";
+
             function getTextString() {
 
                 if (name == ""){
@@ -33,12 +36,22 @@
                     getInputText();
                     getTextString();
                     document.getElementById("myText").focus();
-                } else {
-
                 }
             };
 
+
             function getInputText() {
+
+                <?php
+                if (count($artistSuggestions)>0){
+                    $artistArray = $artistSuggestions;
+                    $hasArtistSuggestions = true;
+                }
+                else {
+                    $hasArtistSuggestions = false;
+                }
+                ?>
+
                 var artistName = document.getElementById("myText").value;
                 var name = artistName;
                 var baseURL = "http://localhost:8000/api/artist/";
@@ -47,7 +60,16 @@
                 name = artistName;
                 document.getElementById("myText").focus();
 
+
+            };
+
+            function putText(val) {
+
+                document.getElementById("myText").value = val;
             }
+
+
+
         </script>
 
 <style>
@@ -165,6 +187,7 @@ pageTitle {
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 </style>
+
 </head>
 <body onload = "getTextString()">
     <div id = "search">
@@ -172,9 +195,27 @@ pageTitle {
         <input type="text" name="artist" oninput="countChar(this)" value = "<?php $textstring ?>" size ="50" id="myText">
 
         <div id="myDropdown" class="dropdown-content" >
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
+            <?php
+
+            if (count($artistSuggestions)>0){
+                $artistArray = $artistSuggestions;
+                $num = count($artistSuggestions);
+                $hasArtistSuggestions = true;
+
+                for ($i = 0; (($i + 1 < $num) && ($i < 3))
+                    && $hasArtistSuggestions; $i++){
+                    echo "<a href='#' onclick='putText(".json_encode($artistArray[$i]['artistName'], JSON_HEX_TAG).")'>".
+                            $artistArray[$i]['artistName'] ."</a>";
+                }
+            }
+
+            else {
+                $hasArtistSuggestions = false;
+            }
+
+            ?>
+
+
         </div>
         <br><br>
         <button onclick="getInputText()">Search</button>
