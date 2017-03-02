@@ -72,7 +72,7 @@ form{
 input[type = "button"], input[type = "submit"], button {
     background-color: #B345F1;
     height: auto;
-    width: 120px;
+    width: 300px;
     font-size: 12px;
     display: inline-block;
     border-radius: 5px;
