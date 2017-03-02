@@ -6,6 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Cloud9!</title>
+
+	<script src="http://d3js.org/d3.v3.min.js"> </script>
+	<script src="d3.layout.cloud.js"></script>
+
+	<script>
+		var frequency_list = [{"text":"study", "size": 40}, {"text":"motion","size":15}];
+
+	</script>
 <!--
         <script type = "text/javascript">
             var inputBox = document.getElementById("myText");
