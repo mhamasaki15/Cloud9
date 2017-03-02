@@ -17,14 +17,14 @@ class MyController extends Controller {
   	$response = $client->get('artist.search?q_artist=' . $name . '&page_size=3&s_artist_rating=DESC' . $this->verification);
 
   	$obj = json_decode($response->getBody(), true);
-  //	$obj = $obj['message']['body']['artist_list'];
+  	$obj = $obj['message']['body']['artist_list'];
 
-  /*  $artistSuggestions = array();
+    $artistSuggestions = array();
     if (sizeof($obj) > 0) $artistSuggestions[0] = array("artistName" => $obj[0]['artist']['artist_name'], "artistId" => $obj[0]['artist']['artist_id']);
     if (sizeof($obj) > 1) $artistSuggestions[1]= array("artistName" => $obj[1]['artist']['artist_name'], "artistId" => $obj[1]['artist']['artist_id']);
     if (sizeof($obj) > 2) $artistSuggestions[2]= array("artistName" => $obj[2]['artist']['artist_name'], "artistId" => $obj[2]['artist']['artist_id']);
 
- */   return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
+    return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
   }
 
   public function getWordCloudList($artistId){
@@ -32,7 +32,7 @@ class MyController extends Controller {
       'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
       'timeout' => 2.0
     ]);
-    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=10&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
+    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=5&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
 
     $trackList = json_decode($response->getBody(), true);
     $trackList = $trackList['message']['body']['track_list'];
@@ -89,8 +89,6 @@ class MyController extends Controller {
       $wordCloudString = $wordCloudString . $toAdd;
     }
 
-    //$wordCloudString = '<a href=\"http://localhost:8000\"> hi </a>';
-
     $wordList = json_encode($wordList);
 
     return view('wordcloud', ['wordCloudString' => $wordCloudString, 'wordList' => $wordList, 'artistName' => $artistName, 'artistId' => $artistId]);
@@ -102,7 +100,7 @@ class MyController extends Controller {
   		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
   		'timeout' => 2.0
   	]);
-    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=25&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
+    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=5&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
 
     $trackList = json_decode($response->getBody(), true);
     $trackList = $trackList['message']['body']['track_list'];
