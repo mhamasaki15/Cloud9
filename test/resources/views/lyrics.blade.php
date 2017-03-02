@@ -62,15 +62,17 @@
 #songList {
     position: fixed;
     left: 40%;
-
+    float:left;
     text-align: left;
 }
 
 #lyrics {
     position: fixed;
-    left: 30%;
+    left: 35%;
     text-align: center;
     max-width: 700px;
+    overflow-y: auto;
+    height: 500px;
 }
 
 body {
@@ -114,8 +116,9 @@ pageTitle {
 <div id = "wrapper">
     <pageTitle></pageTitle>
     <br><br>
-    <body onload = "loadLyrics()">
     <div id = "lyrics"> 
+            <body onload = "loadLyrics()">
+
     </div>
     </body>
 </div>
