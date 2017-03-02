@@ -62,12 +62,19 @@
 
 
             };
+            var artistID="";
 
-            function putText(val) {
-
+            function putText(val, val2) {
                 document.getElementById("myText").value = val;
-            }
+                artistID = val2;
 
+            }
+            function goToCloud(){
+                var baseURL = "http://localhost:8000/api/wordcloud/";
+                var url = baseURL.concat(artistID);
+                if (artistID!=""){
+                window.location.href = url;}
+                }
 
 
         </script>
@@ -204,7 +211,8 @@ pageTitle {
 
                 for ($i = 0; (($i + 1 < $num) && ($i < 3))
                     && $hasArtistSuggestions; $i++){
-                    echo "<a href='#' onclick='putText(".json_encode($artistArray[$i]['artistName'], JSON_HEX_TAG).")'>".
+                    echo "<a href='#' onclick='putText(".json_encode($artistArray[$i]['artistName'], JSON_HEX_TAG).", " .
+                            json_encode($artistArray[$i]['artistId'], JSON_HEX_TAG).")'>".
                             $artistArray[$i]['artistName'] ."</a>";
                 }
             }
@@ -218,7 +226,7 @@ pageTitle {
 
         </div>
         <br><br>
-        <button onclick="getInputText()">Search</button>
+        <button onclick="goToCloud()">Search</button>
         <br>
 
 
