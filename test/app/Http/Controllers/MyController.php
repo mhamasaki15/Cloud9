@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 
 
 class MyController extends Controller {
-  private $verification = '&apikey=af4f17055cd4a57b70e1604b5672f11c';
+  private $verification = '&apikey=f5da5786a4cf41bbdc7f52e5a71c8e0d';
 
   public function getArtistSuggestions($name){
   	$client = new Client([
