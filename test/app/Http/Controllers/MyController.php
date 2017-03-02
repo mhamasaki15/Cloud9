@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 class MyController extends Controller {
   private $verification = '&apikey=f5da5786a4cf41bbdc7f52e5a71c8e0d';
 
-  public function getArtistSuggestions($name){
+  public function getArtistSuggestions($name, $isHome){
   	$client = new Client([
   		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
   		'timeout' => 2.0
@@ -23,8 +23,10 @@ class MyController extends Controller {
     if (sizeof($obj) > 0) $artistSuggestions[0] = array("artistName" => $obj[0]['artist']['artist_name'], "artistId" => $obj[0]['artist']['artist_id']);
     if (sizeof($obj) > 1) $artistSuggestions[1]= array("artistName" => $obj[1]['artist']['artist_name'], "artistId" => $obj[1]['artist']['artist_id']);
     if (sizeof($obj) > 2) $artistSuggestions[2]= array("artistName" => $obj[2]['artist']['artist_name'], "artistId" => $obj[2]['artist']['artist_id']);
+    $view;
 
     return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
+ 
   }
 
   public function getWordCloudList($artistId){
