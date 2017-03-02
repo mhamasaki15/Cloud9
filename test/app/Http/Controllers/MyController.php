@@ -24,7 +24,7 @@ class MyController extends Controller {
 	if (sizeof($obj) > 2) $artistSuggestions[2]= array("artistName" => $obj[2]['artist']['artist_name'], "artistId" => $obj[2]['artist']['artist_id']);
 	var_dump($artistSuggestions);
 	$artistSuggestions = json_encode($artistSuggestions);
-	return view('homepage', ['artistSuggestions' => $artistSuggestions]);
+	return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
    }
 
    public function getWordCloudList($artistId){
@@ -35,6 +35,8 @@ class MyController extends Controller {
      $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=25&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
      $trackList = json_decode($response->getBody(), true);
      $trackList = $trackList['message']['body']['track_list'];
+     $artistName = $trackList[0]['track']['artist_name'];
+     echo $artistName;
 
      $allSongLyrics = " ";
      for ($i = 0; $i < count($trackList); $i++){
@@ -67,6 +69,6 @@ class MyController extends Controller {
 
      $wordList = json_encode($wordList);
 
-     //return view('wordcloud', [wordlist => $wordList]);
+     //return view('wordcloud', [wordList => $wordList, artistName = $artistName]);
    }
 }
