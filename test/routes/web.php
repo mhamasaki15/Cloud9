@@ -15,9 +15,11 @@ Route::get('/', function () {
     return view('homepage');
 });
 
-Route::get('/api/artist/{name}', 'MyController@getArtistSuggestions');
+Route::get('/api/artist/{name}', 'MyController@getArtistSuggestions')->name('suggestions.get');
 
-Route::get('/api/wordcloud/{artistId}', 'MyController@getWordCloudList');
+Route::get('/api/wordcloud/{artistId}', 'MyController@getWordCloudList')->name('wordcloud.get');
+
+Route::get('/api/songlist/{word}/{artistId}', 'MyController@getSongList')->name('songlist.get');
 
 Route::resource('my','MyController');
 
