@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 
 class MyController extends Controller {
    private $verification = '&apikey=af4f17055cd4a57b70e1604b5672f11c';
+
    public function getArtistSuggestions($name){
 	$client = new Client([
 		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
@@ -22,6 +23,7 @@ class MyController extends Controller {
 	if (sizeof($obj) > 1) $artistSuggestions[1]= array("artistName" => $obj[1]['artist']['artist_name'], "artistId" => $obj[1]['artist']['artist_id']);
 	if (sizeof($obj) > 2) $artistSuggestions[2]= array("artistName" => $obj[2]['artist']['artist_name'], "artistId" => $obj[2]['artist']['artist_id']);
 	var_dump($artistSuggestions);
+	$artistSuggestions = json_encode($artistSuggestions);
 	return view('homepage', ['artistSuggestions' => $artistSuggestions]);
    }
 
@@ -41,7 +43,7 @@ class MyController extends Controller {
        $songLyrics = $songLyrics['message']['body']['lyrics']['lyrics_body'];
 
        //getting rid of common stuff.
-       $toReplace = array(".", ")", "(", "\n", ',', '******* This Lyrics is NOT for Commercial use *******');
+       $toReplace = array(".", ")", "(", "\"", "]", "[", "1409614310238", "\n", ',', '******* This Lyrics is NOT for Commercial use *******');
        $songLyrics = str_replace($toReplace, " ", $songLyrics);
     
        //Remove the last word (its useless)
