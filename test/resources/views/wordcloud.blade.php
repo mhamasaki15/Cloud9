@@ -41,11 +41,18 @@
     text-align: left;
 }
 
+#squishit {
+    position: fixed;
+    left: 35%;
+    top: 10%;
+    max-width: 400px;
+}
+
 #lyrics {
     position: fixed;
     left: 20%;
     text-align: center;
-    max-width: 700px;
+
 }
 
 a{
@@ -90,8 +97,12 @@ pageTitle {
 </style>
 </head>
 <body onload = "loadCloud()">
-  <div id = "searchCloud">
+
+<div id = "squishit">
     <p id="wordcloud"> </p>
+</div>
+
+    <div id = "searchCloud">
       <form action="/word_cloud.php">
           <br>
           <input type="text" name="artist" size ="50">
@@ -101,5 +112,6 @@ pageTitle {
 	  <input type="submit" value="Add Artist" style = "button">
 	  <input type="submit" value="Search" style="button">
       </form>
-  </div>
+
+</div>
 </body>
