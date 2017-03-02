@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Cloud9!</title>
-<style> 
+
+        <script type = "text/javascript">
+            var inputBox = document.getElementById("myText");
+            function getInputText() {
+                var artistName = document.getElementById("myText").value;
+                var baseURL = "http://localhost:8000/api/artist/";
+                var url = baseURL.concat(artistName);
+
+                window.location.href = url;
+
+            }
+        </script>
+
+<style>
 #wrapper {
     width: 100%;
     height: 100%;
@@ -75,18 +89,18 @@ input[type = "text"] {
 }
 pageTitle {
     font-size: 20px;
-    font
+
 }
 </style>
 </head>
 <body>
     <div id = "search">
-    <form action="/word_cloud.php">
         <br>
-        <input type="text" name="artist" size ="50" >
+        <input type="text" name="artist" oninput="getInputText()" size ="50" id="myText">
         <br><br>
-        <input type="submit" value="Search" style = "button">
-    </form>
+        <button onclick="getInputText()">Search</button>
+    <h1> asdf <?php echo $textString ?> </h1>
     </div>
+
 </body>
 
