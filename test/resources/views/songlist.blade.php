@@ -5,20 +5,40 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Chosen Word Goes Here</title>
-<!--
-        <script type = "text/javascript">
-            var inputBox = document.getElementById("myText");
-            function getInputText() {
-                var artistName = document.getElementById("myText").value;
-                var baseURL = "http://localhost:8000/api/artist/";
-                var url = baseURL.concat(artistName);
 
+
+
+        <button id = "back" onclick = "goBack()"> Back to Word Cloud Page</button>
+
+        <script type="text/javascript">
+            function goBack() { 
+                var artistId = <?php echo $artistId?>;
+                var url = "http://localhost:8000/api/wordcloud/";
+                url = url.concat(artistId);
                 window.location.href = url;
-
             }
+            
+
         </script>
--->
+        <title> Song List Page </title>
+
+        <h1><b> <?php echo $word?> </b></h1>
+        <body> 
+        <?php      
+            $songs = json_decode($songList, true);
+            $tracks = json_decode($trackList, true);
+            for($i = 0; $i < sizeOf($songs); $i++) {
+               if($songs[$tracks[$i]['track']['track_name']] > 0) {
+                    $track = $tracks[$i]['track']['track_name'];
+                    echo "<a href = '/api/lyrics/$track/$artistId/$word'>$track</a>";
+                    $frequency = $songs[$tracks[$i]['track']['track_name']];
+                    echo " ($frequency)";
+                    echo "<br>";
+               }
+            }
+        ?>
+        </body>
+
 
 <style>
 #wrapper {
@@ -56,14 +76,30 @@
     max-width: 700px;
 }
 
+
+html, body {
+    height: 100%;
+}
+html {
+    display: table;
+    margin: auto;
+}
+
 body {
     background-color: #c5c8c4;
+    vertical-align: text-top;
+    display: table-cell;
 
 }
 
 form{
     display:inline-block;
 
+}
+#back {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 input[type = "button"], input[type = "submit"], button {
@@ -93,11 +129,11 @@ pageTitle {
 }
 </style>
 </head>
-<body>
+<!-- <body>
   <div id = "songList"> #Insert while loop for results
       <br>
       Song 1 (12)
       <br>
       Song 2 (10)
   </div>
-</body>
+</body> -->
