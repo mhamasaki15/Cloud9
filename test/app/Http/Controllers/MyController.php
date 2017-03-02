@@ -14,7 +14,7 @@ class MyController extends Controller {
   		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
   		'timeout' => 2.0
   	]);
-  	$response = $client->get('artist.search?q_artist=' . $name . '&page_size=3&s_artist_rating=ASC' . $this->verification);
+  	$response = $client->get('artist.search?q_artist=' . $name . '&page_size=3&s_artist_rating=DESC' . $this->verification);
 
   	$obj = json_decode($response->getBody(), true);
   	$obj = $obj['message']['body']['artist_list'];
