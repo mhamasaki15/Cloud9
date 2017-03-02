@@ -32,7 +32,7 @@
 
             function countChar(val) {
                 var len = document.getElementById('myText').value.length;
-                if (len > 3) {
+                if (len >= 3) {
                     getInputText();
                     getTextString();
                     document.getElementById("myText").focus();
