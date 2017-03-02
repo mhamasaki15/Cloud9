@@ -33,6 +33,7 @@
 				var artistName = "<?php echo $artistName ?>";
 				var title = songTitle.concat(" by ").concat(artistName);
 				document.getElementsByTagName("pageTitle")[0].innerHTML = title;
+				document.title = title;
 			}
         </script>
 
@@ -74,12 +75,11 @@
 
 body {
     background-color: #c5c8c4;
-
+	overflow-y: scroll;
 }
 
 form{
     display:inline-block;
-
 }
 
 input[type = "button"], input[type = "submit"], button {
