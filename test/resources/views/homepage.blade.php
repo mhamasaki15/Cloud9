@@ -37,6 +37,9 @@
                     getTextString();
                     document.getElementById("myText").focus();
                 }
+                else {
+                    document.getElementById("myDropdown").style.visibility="hidden";
+                }
             };
 
 
@@ -66,6 +69,7 @@
 
             function putText(val, val2) {
                 document.getElementById("myText").value = val;
+
                 artistID = val2;
 
             }
@@ -209,7 +213,7 @@ pageTitle {
                 $num = count($artistSuggestions);
                 $hasArtistSuggestions = true;
 
-                for ($i = 0; (($i + 1 < $num) && ($i < 3))
+                for ($i = 0; (($i  < $num) && ($i < 3))
                     && $hasArtistSuggestions; $i++){
                     echo "<a href='#' onclick='putText(".json_encode($artistArray[$i]['artistName'], JSON_HEX_TAG).", " .
                             json_encode($artistArray[$i]['artistId'], JSON_HEX_TAG).")'>".
