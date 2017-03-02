@@ -17,14 +17,14 @@ class MyController extends Controller {
   	$response = $client->get('artist.search?q_artist=' . $name . '&page_size=3&s_artist_rating=DESC' . $this->verification);
 
   	$obj = json_decode($response->getBody(), true);
-  	$obj = $obj['message']['body']['artist_list'];
+  //	$obj = $obj['message']['body']['artist_list'];
 
-    $artistSuggestions = array();
+  /*  $artistSuggestions = array();
     if (sizeof($obj) > 0) $artistSuggestions[0] = array("artistName" => $obj[0]['artist']['artist_name'], "artistId" => $obj[0]['artist']['artist_id']);
     if (sizeof($obj) > 1) $artistSuggestions[1]= array("artistName" => $obj[1]['artist']['artist_name'], "artistId" => $obj[1]['artist']['artist_id']);
     if (sizeof($obj) > 2) $artistSuggestions[2]= array("artistName" => $obj[2]['artist']['artist_name'], "artistId" => $obj[2]['artist']['artist_id']);
 
-    return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
+ */   return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
   }
 
   public function getWordCloudList($artistId){
