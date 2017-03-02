@@ -5,12 +5,19 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Cloud9!</title>
+        <title><?php echo $artistName ?></title>
+
+	<button onclick = "goToSearch()">Go Back to Homepage</button>
+	<br>
         <script type = "text/javascript">
 	  function loadCloud(){
             var wordCloudString =  "<?php echo $wordCloudString?>";
 	    document.getElementById("wordcloud").innerHTML= wordCloudString;
           }
+
+	function goToSearch(){
+		window.location.href = "http://localhost:8000";
+	}
         </script>
 
 <style>
@@ -43,9 +50,9 @@
 
 #squishit {
     position: fixed;
-    left: 35%;
+    left: 20%;
     top: 10%;
-    max-width: 600px;
+    max-width: 1080px;
 }
 
 #lyrics {
@@ -99,18 +106,16 @@ pageTitle {
 <body onload = "loadCloud()">
 
 <div id = "squishit">
+    <font size= "+2"> <?php echo $artistName?> </font>
     <p id="wordcloud"> </p>
 </div>
 
     <div id = "searchCloud">
       <form action="/word_cloud.php">
           <br>
-          <input type="text" name="artist" size ="50">
           <br>
           <br>
-	  <input type="submit" value="Share" style="button">
 
-	  <input type="submit" value="Search" style="button">
       </form>
 
 </div>
