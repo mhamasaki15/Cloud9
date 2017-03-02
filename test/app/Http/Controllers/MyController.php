@@ -63,10 +63,11 @@ class MyController extends Controller {
     $wordList = array_count_values($wordList);
     arsort($wordList);
     $wordList = array_slice($wordList, 0, 250, true);
+/*
     echo '<pre>';
     print_r($wordList);
     echo '</pre>';
-
+*/
     $wordList = json_encode($wordList);
 
     return view('wordcloud', ['wordList' => $wordList, 'artistName' => $artistName, 'artistId' => $artistId]);

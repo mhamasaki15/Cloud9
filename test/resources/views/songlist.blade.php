@@ -6,6 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+
+
+        <button id = "back" onclick = "goBack()"> Back to Word Cloud Page</button>
+
+        <script type="text/javascript">
+            function goBack() { 
+                var artistId = <?php echo $artistId?>;
+                var url = "http://localhost:8000/api/wordcloud/";
+                url = url.concat(artistId);
+                window.location.href = url;
+            }
+            
+
+        </script>
         <title> Song List Page </title>
 
         <h1><b> <?php echo $word?> </b></h1>
@@ -15,7 +29,8 @@
             $tracks = json_decode($trackList, true);
             for($i = 0; $i < sizeOf($songs); $i++) {
                if($songs[$tracks[$i]['track']['track_name']] > 0) {
-                    echo $tracks[$i]['track']['track_name'];
+                    $track = $tracks[$i]['track']['track_name'];
+                    echo "<a href = '/api/lyrics/$track/$artistId/$word'>$track</a>";
                     $frequency = $songs[$tracks[$i]['track']['track_name']];
                     echo " ($frequency)";
                     echo "<br>";
@@ -80,6 +95,11 @@ body {
 form{
     display:inline-block;
 
+}
+#back {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 input[type = "button"], input[type = "submit"], button {
