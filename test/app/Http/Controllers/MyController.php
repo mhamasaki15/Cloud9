@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 class MyController extends Controller {
   private $verification = '&apikey=f5da5786a4cf41bbdc7f52e5a71c8e0d';
 
-  public function getArtistSuggestions($name, $isHome){
+  public function getArtistSuggestions($name){
   	$client = new Client([
   		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
   		'timeout' => 2.0
