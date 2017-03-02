@@ -24,7 +24,7 @@ class MyController extends Controller {
     if (sizeof($obj) > 1) $artistSuggestions[1]= array("artistName" => $obj[1]['artist']['artist_name'], "artistId" => $obj[1]['artist']['artist_id']);
     if (sizeof($obj) > 2) $artistSuggestions[2]= array("artistName" => $obj[2]['artist']['artist_name'], "artistId" => $obj[2]['artist']['artist_id']);
 
-    var_dump($artistSuggestions);
+    //var_dump($artistSuggestions);
     $artistSuggestions = json_encode($artistSuggestions);
     return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
   }
@@ -34,7 +34,7 @@ class MyController extends Controller {
       'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
       'timeout' => 2.0
     ]);
-    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=25&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
+    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=10&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
 
     $trackList = json_decode($response->getBody(), true);
     $trackList = $trackList['message']['body']['track_list'];
@@ -68,9 +68,34 @@ class MyController extends Controller {
     print_r($wordList);
     echo '</pre>';
 */
+
+    $wordCloudString = "";
+    $startingATag = "<a style='color:";
+    $fontSizeString = "; font-size:";
+    $linkString = "px;' href='http://localhost:8000/api/songlist/";
+    $colors = array("red", "blue", "green", "purple", "yellow", "black", "orange", "gray");
+
+    $shuffled_array = array();
+    $shuffled_keys = array_keys($wordList);
+    shuffle($shuffled_keys);
+    foreach ($shuffled_keys as $shuffled_key){
+      $shuffled_array[$shuffled_key] = $wordList[$shuffled_key];
+    }
+
+    foreach ($shuffled_array as $key => $value){
+      $color = $colors[array_rand($colors, 1)];
+      //echo $color;
+      $fontSize = $value * 4;
+      if ($fontSize > 40) $fontSize = 40;
+      $toAdd = $startingATag . $color . $fontSizeString . $fontSize . $linkString . $key . "/" . $artistId . "'> " . $key . " </a>";
+      $wordCloudString = $wordCloudString . $toAdd;
+    }
+
+    //$wordCloudString = '<a href=\"http://localhost:8000\"> hi </a>';
+
     $wordList = json_encode($wordList);
 
-    return view('wordcloud', ['wordList' => $wordList, 'artistName' => $artistName, 'artistId' => $artistId]);
+    return view('wordcloud', ['wordCloudString' => $wordCloudString, 'wordList' => $wordList, 'artistName' => $artistName, 'artistId' => $artistId]);
   }
 
 
