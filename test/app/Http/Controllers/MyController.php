@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 
 
-
 class MyController extends Controller {
   private $verification = '&apikey=af4f17055cd4a57b70e1604b5672f11c';
 
@@ -77,8 +76,6 @@ class MyController extends Controller {
 
 
   public function getSongList($word, $artistId){
-    echo $word;
-    echo $artistId;
     $client = new Client([
   		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
   		'timeout' => 2.0
@@ -91,14 +88,42 @@ class MyController extends Controller {
     $songList = array();
 
     for ($i = 0; $i < count($trackList); $i++){
+      $response = $client->get('track.lyrics.get?track_id=' . $trackList[$i]['track']['track_id'] . $this->verification);
+      $songLyrics= json_decode($response->getBody(), true);
+      $songLyrics = $songLyrics['message']['body']['lyrics']['lyrics_body'];
 
+      $toReplace = array(".", ")", "(", "\"", "]", "[", "1409614310238", "\n", ',', '******* This Lyrics is NOT for Commercial use *******'); 
+      $songLyrics = str_replace($toReplace, " ", $songLyrics);
+      $songLyrics = strtolower($songLyrics);
 
+      $count = substr_count($songLyrics, " " . $word . " ");
+      $songList[$trackList[$i]['track']['track_name']] = $count;
     }
 
+    arsort($songList);
+//    var_dump($songList);
+    $songList = json_encode($songList);
 
+   //return view('songlist', [songList => $songList, word => $word, artistId => $artistId]);
+  }
 
+  public function getSongLyrics($songName, $artistId, $word){
+    $client = new Client([
+  		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
+  		'timeout' => 2.0
+  	]);
+    $response = $client->get('track.search?f_artist_id=' . $artistId . '&q_track=' . $songName . '&f_has_lyrics=true' . $this->verification);
+    $track = json_decode($response->getBody(), true);
+    $track = $track['message']['body']['track_list'][0]['track'];
+    
+    $response = $client->get('track.lyrics.get?track_id=' . $track['track_id'] . $this->verification);
+    $lyrics = json_decode($response->getBody(), true);    
+    $lyrics = $lyrics['message']['body']['lyrics']['lyrics_body'];
+    
+    $lyrics = str_replace("******* This Lyrics is NOT for Commercial use *******", "", $lyrics);
+    $lyrics = str_replace("(1409614310238)", "", $lyrics);
+    var_dump($lyrics);
 
-   //return view('songlist', [word => $word, artistId => $artistId]);
-
-   }
+    //return view('lyrics', [lyrics => $lyrics, word => $word, artistId => $artistId]);
+  }
 }

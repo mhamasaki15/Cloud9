@@ -21,5 +21,7 @@ Route::get('/api/wordcloud/{artistId}', 'MyController@getWordCloudList')->name('
 
 Route::get('/api/songlist/{word}/{artistId}', 'MyController@getSongList')->name('songlist.get');
 
+Route::get('/api/lyrics/{songName}/{artistId}/{word}', 'MyController@getSongLyrics')->name('lyrics.get');
+
 Route::resource('my','MyController');
 
