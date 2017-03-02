@@ -145,7 +145,7 @@ class MyController extends Controller {
     
     $lyrics = str_replace("******* This Lyrics is NOT for Commercial use *******", "", $lyrics);
     $lyrics = str_replace("(1409614310238)", "", $lyrics);
-    $lyrics = str_replace(array("\" ", " \""), " ", $lyrics);
+    $lyrics = str_replace("\""," ", $lyrics);
     $lyrics = str_replace("\n", " <br> ", $lyrics);
 
     return view('lyrics', ['lyrics' => $lyrics, 'word' => $word, 'artistId' => $artistId, 'artistName' => $artistName, 'songTitle' => $trackName]);
