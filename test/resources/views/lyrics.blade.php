@@ -6,19 +6,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Chosen Song title and Artist Here</title>
-<!--
+
         <script type = "text/javascript">
-            var inputBox = document.getElementById("myText");
-            function getInputText() {
-                var artistName = document.getElementById("myText").value;
-                var baseURL = "http://localhost:8000/api/artist/";
-                var url = baseURL.concat(artistName);
+			function backToWordCloud(){
+				var artistId = <?php echo $artistId ?>;
+				var baseURL = "http://localhost:8000/api/wordcloud/";
+				var url = baseURL.concat(artistId);
 
-                window.location.href = url;
+				window.location.href = url
+			}
 
-            }
+			function backToSongList(){
+				var artistId = <?php echo $artistId ?>;
+				var word = "<?php echo $word ?>";
+				var baseURL = "http://localhost:8000/api/songlist/";
+				var url = baseURL.concat(word);
+				url = url.concat("/");
+				url = url.concat(artistId);
+				window.location.href = url
+			}
+
+			function loadLyrics(){
+				var lyricsString = "<?php echo $lyrics ?>";
+				document.getElementById("lyrics").innerHTML = lyricsString;
+				var songTitle = "<?php echo $songTitle ?>";
+				var artistName = "<?php echo $artistName ?>";
+				var title = songTitle.concat(" by ").concat(artistName);
+				document.getElementsByTagName("pageTitle")[0].innerHTML = title;
+			}
         </script>
--->
 
 <style>
 #wrapper {
@@ -51,7 +67,7 @@
 
 #lyrics {
     position: fixed;
-    left: 20%;
+    left: 30%;
     text-align: center;
     max-width: 700px;
 }
@@ -93,41 +109,13 @@ pageTitle {
 }
 </style>
 </head>
-<button style = "button">Back to Word Cloud</button>
-<button style = "button">Back to Song List</button>
+<button style = "button" onclick = "backToWordCloud()">Back to Word Cloud</button>
+<button style = "button" onclick = "backToSongList()">Back to Song List</button>
 <div id = "wrapper">
-    <pageTitle>Single Ladies by Beyonce</pageTitle>
+    <pageTitle></pageTitle>
     <br><br>
-    <body>
-    <div id = "lyrics">
-
-        All the single <mark>ladies</mark>
-        (All the single ladies)
-        All the single ladies
-        (All the single ladies)
-        All the single ladies
-        (All the single ladies)
-        All the single ladies
-        Now put your hands up
-        Up in the club, just broke up
-        I'm doing my own little thing
-        You decided to dip and now you wanna trip
-        'Cause another brother noticed me
-        I'm up on him, he up on me
-        Don't pay him any attention
-        'Cause I cried my tears for three good years
-        You can't be mad at me
-        'Cause if you liked it, then you should have put a ring on it
-        If you liked it, then you should have put a ring on it
-        Don't be mad once you see that he want it
-        If you liked it, then you should have put a ring on it
-        Oh, oh, oh
-        Oh, oh, oh, oh, oh, oh
-        Oh, oh, oh
-        Oh, oh, oh
-        Oh, oh, oh, oh, oh, oh
-        Oh, oh, oh
-
+    <body onload = "loadLyrics()">
+    <div id = "lyrics"> 
     </div>
     </body>
 </div>

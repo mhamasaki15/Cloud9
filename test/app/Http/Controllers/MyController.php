@@ -55,8 +55,6 @@ class MyController extends Controller {
       $commonEnglishWords = array(" a ", " i ", " i'm ", " it's ", " do ", " am ", " the ", " to ", " in ", " at ", " is ", " it ", " was ", " are ", " that ", " of ", " be ", " at ", " or ", " by ", " this ", " and ", " you ", " me ", " some ", " how ", " my ", " on ", " they ", " get ", " we ", " so ", " but "); 
       $songLyrics = str_replace($commonEnglishWords, " ", $songLyrics);
 
-      //$songLyrics = substr($songLyrics, 0, strrpos($songLyrics, ' '));
-
       $allSongLyrics = $allSongLyrics . " " . $songLyrics;
     }
 
@@ -71,7 +69,7 @@ class MyController extends Controller {
 
     $wordList = json_encode($wordList);
 
-     //return view('wordcloud', [wordList => $wordList, artistName => $artistName, artistId => $artistId]);
+    return view('wordcloud', ['wordList' => $wordList, 'artistName' => $artistName, 'artistId' => $artistId]);
   }
 
 
@@ -104,7 +102,7 @@ class MyController extends Controller {
 //    var_dump($songList);
     $songList = json_encode($songList);
 
-   //return view('songlist', [songList => $songList, word => $word, artistId => $artistId]);
+   return view('songlist', ['songList' => $songList, 'word' => $word, 'artistId' => $artistId]);
   }
 
   public function getSongLyrics($songName, $artistId, $word){
@@ -115,6 +113,8 @@ class MyController extends Controller {
     $response = $client->get('track.search?f_artist_id=' . $artistId . '&q_track=' . $songName . '&f_has_lyrics=true' . $this->verification);
     $track = json_decode($response->getBody(), true);
     $track = $track['message']['body']['track_list'][0]['track'];
+    $trackName = $track['track_name'];
+    $artistName = $track['artist_name'];
     
     $response = $client->get('track.lyrics.get?track_id=' . $track['track_id'] . $this->verification);
     $lyrics = json_decode($response->getBody(), true);    
@@ -122,8 +122,9 @@ class MyController extends Controller {
     
     $lyrics = str_replace("******* This Lyrics is NOT for Commercial use *******", "", $lyrics);
     $lyrics = str_replace("(1409614310238)", "", $lyrics);
-    var_dump($lyrics);
+    $lyrics = str_replace("\n", " <br> ", $lyrics);
+//    var_dump($lyrics);
 
-    //return view('lyrics', [lyrics => $lyrics, word => $word, artistId => $artistId]);
+    return view('lyrics', ['lyrics' => $lyrics, 'word' => $word, 'artistId' => $artistId, 'artistName' => $artistName, 'songTitle' => $trackName]);
   }
 }
