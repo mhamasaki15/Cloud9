@@ -24,8 +24,19 @@
                 else {
                     document.getElementById("myDropdown").style.visibility="visible";
                 }
+                document.getElementById("myText").focus();
+            };
 
-            }
+            function countChar(val) {
+                var len = document.getElementById('myText').value.length;
+                if (len > 3) {
+                    getInputText();
+                    getTextString();
+                    document.getElementById("myText").focus();
+                } else {
+
+                }
+            };
 
             function getInputText() {
                 var artistName = document.getElementById("myText").value;
@@ -34,7 +45,7 @@
                 var url = baseURL.concat(artistName);
                 window.location.href = url;
                 name = artistName;
-
+                document.getElementById("myText").focus();
 
             }
         </script>
@@ -158,7 +169,7 @@ pageTitle {
 <body onload = "getTextString()">
     <div id = "search">
         <br>
-        <input type="text" name="artist" oninput="getInputText()" value = "<?php $textstring ?>" size ="50" id="myText">
+        <input type="text" name="artist" oninput="countChar(this)" value = "<?php $textstring ?>" size ="50" id="myText">
 
         <div id="myDropdown" class="dropdown-content" >
             <a href="#">Link 1</a>
