@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/js/mark.min.js"></script>
 
         <title>Chosen Song title and Artist Here</title>
-
         <script type = "text/javascript">
 			function backToWordCloud(){
 				var artistId = <?php echo $artistId ?>;
@@ -34,6 +34,12 @@
 				var title = songTitle.concat(" by ").concat(artistName);
 				document.getElementsByTagName("pageTitle")[0].innerHTML = title;
 				document.title = title;
+
+                var instance = new Mark(document.querySelector("div.context"));
+                var word = "<?php echo $word ?>";
+                instance.mark(word, {
+                    accuracy: "exactly"
+                });
 			}
         </script>
 
@@ -116,9 +122,10 @@ pageTitle {
 <div id = "wrapper">
     <pageTitle></pageTitle>
     <br><br>
-    <div id = "lyrics"> 
+    <div class = "context">
+        <div id = "lyrics"> 
             <body onload = "loadLyrics()">
-
+        </div>
     </div>
     </body>
 </div>
