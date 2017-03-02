@@ -83,9 +83,9 @@ class MyController extends Controller {
     foreach ($shuffled_array as $key => $value){
       $color = $colors[array_rand($colors, 1)];
       //echo $color;
-      $fontSize = $value * 4;
+      $fontSize = $value * 6;
       if ($fontSize > 40) $fontSize = 40;
-      if ($fontSize < 8) $fontSize = 8;
+      if ($fontSize < 12) $fontSize = 10;
       $toAdd = $startingATag . $color . $fontSizeString . $fontSize . $linkString . $key . "/" . $artistId . "'> " . $key . " </a>";
       $wordCloudString = $wordCloudString . $toAdd;
     }
@@ -145,8 +145,8 @@ class MyController extends Controller {
     
     $lyrics = str_replace("******* This Lyrics is NOT for Commercial use *******", "", $lyrics);
     $lyrics = str_replace("(1409614310238)", "", $lyrics);
+    $lyrics = str_replace(array("\" ", " \""), " ", $lyrics);
     $lyrics = str_replace("\n", " <br> ", $lyrics);
-//    var_dump($lyrics);
 
     return view('lyrics', ['lyrics' => $lyrics, 'word' => $word, 'artistId' => $artistId, 'artistName' => $artistName, 'songTitle' => $trackName]);
   }
