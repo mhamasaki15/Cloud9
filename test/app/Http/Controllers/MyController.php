@@ -112,7 +112,7 @@ class MyController extends Controller {
       $songLyrics= json_decode($response->getBody(), true);
       $songLyrics = $songLyrics['message']['body']['lyrics']['lyrics_body'];
 
-      $toReplace = array(".", ")", "(", "\"", "]", "[", "1409614310238", "\n", ',', '******* This Lyrics is NOT for Commercial use *******'); 
+      $toReplace = array(".", ")", "(", "\"", "]", "[", "1409614316181", "\n", ',', '******* This Lyrics is NOT for Commercial use *******'); 
       $songLyrics = str_replace($toReplace, " ", $songLyrics);
       $songLyrics = strtolower($songLyrics);
 
