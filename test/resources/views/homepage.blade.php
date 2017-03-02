@@ -12,14 +12,18 @@
 
             var name = "";
             function getTextString() {
+
                 if (name == ""){
-                    document.getElementById("myDropdown").style.visibility="hidden";
                     name = "<?php echo $textString ?>";
+                }
+                document.getElementById('myText').value = name;
+
+                if (document.getElementById("myText").value == ""){
+                    document.getElementById("myDropdown").style.visibility="hidden";
                 }
                 else {
                     document.getElementById("myDropdown").style.visibility="visible";
                 }
-                document.getElementById('myText').value = name;
 
             }
 
@@ -30,6 +34,7 @@
                 var url = baseURL.concat(artistName);
                 window.location.href = url;
                 name = artistName;
+
 
             }
         </script>
@@ -155,7 +160,7 @@ pageTitle {
         <br>
         <input type="text" name="artist" oninput="getInputText()" value = "<?php $textstring ?>" size ="50" id="myText">
 
-        <div id="myDropdown" class="dropdown-content">
+        <div id="myDropdown" class="dropdown-content" >
             <a href="#">Link 1</a>
             <a href="#">Link 2</a>
             <a href="#">Link 3</a>
