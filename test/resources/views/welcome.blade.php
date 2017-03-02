@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Cloud9!</title>
+        <title>Cloud!</title>
 
 <style> 
 #wrapper {
@@ -76,10 +76,10 @@ input[type = "text"] {
 }
 pageTitle {
     font-size: 20px;
-    font
 }
 </style>
 </head>
+
 
 <body>
     <div id = "search">
@@ -87,7 +87,7 @@ pageTitle {
         <br>
         <input type="text" name="artist" size ="50" >
         <br><br>
-        <input type="submit" value="Search" style = "button">
+        <input type="submit" value="Search">
     </form>
     </div>
 </body>
