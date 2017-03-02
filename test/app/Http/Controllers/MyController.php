@@ -46,7 +46,7 @@ class MyController extends Controller {
       $songLyrics = $songLyrics['message']['body']['lyrics']['lyrics_body'];
 
       //getting rid of common stuff.
-      $toReplace = array(".", ")", "(", "\"", "]", "[", "1409614310238", "\n", ',', '******* This Lyrics is NOT for Commercial use *******'); 
+      $toReplace = array(".", ")", "(", "\"", "]", "[", "1409614316181", "\n", ',', '******* This Lyrics is NOT for Commercial use *******'); 
       $songLyrics = str_replace($toReplace, " ", $songLyrics);
       $songLyrics = strtolower($songLyrics);
 
@@ -85,6 +85,7 @@ class MyController extends Controller {
       //echo $color;
       $fontSize = $value * 4;
       if ($fontSize > 40) $fontSize = 40;
+      if ($fontSize < 8) $fontSize = 8;
       $toAdd = $startingATag . $color . $fontSizeString . $fontSize . $linkString . $key . "/" . $artistId . "'> " . $key . " </a>";
       $wordCloudString = $wordCloudString . $toAdd;
     }
@@ -121,7 +122,6 @@ class MyController extends Controller {
     }
 
     arsort($songList);
-//    var_dump($songList);
     $songList = json_encode($songList);
     $trackList = json_encode($trackList);
 
