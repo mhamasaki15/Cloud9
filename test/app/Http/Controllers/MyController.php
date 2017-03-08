@@ -9,6 +9,37 @@ use GuzzleHttp\Client;
 class MyController extends Controller {
   private $verification = '&apikey=f5da5786a4cf41bbdc7f52e5a71c8e0d';
 
+/***** Artist Suggestions *****/
+/*			      */
+/******************************/
+
+//Takes JSON string response, converts to PHP array, and returns the artist list
+  private function getArtistListFromJSON($json_string){
+	$json_string = json_decode($json_string->getBody(), true);
+	return $json_string['message']['body']['artist_list'];
+  }
+
+
+//Takes the artist list array, and formats it into an array of max size 3
+//in the format that the front end uses
+  private function createSuggestionsFromArtistList($a_l){
+	$artistSuggestions = array();
+	for ($i=0; $i<sizeof($a_l) && $i <= 2; $i++){
+		$currentArtist = $a_l[$i]['artist'];
+		$currentArtistName = $currentArtist['artist_name'];
+		$currentArtistId = $currentArtist['artist_id'];
+		$artistSuggestions[$i] = array(
+			"artistName" => $currentArtistName,
+			"artistId" => $currentArtistId
+		);
+	}
+	return $artistSuggestions;
+  }
+
+
+//Route that is called to get artist suggestions based off the input text
+//Should return the view of the home page with the suggestions passed in
+//as variables
   public function getArtistSuggestions($name){
   	$client = new Client([
   		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
@@ -16,17 +47,10 @@ class MyController extends Controller {
   	]);
   	$response = $client->get('artist.search?q_artist=' . $name . '&page_size=3&s_artist_rating=DESC' . $this->verification);
 
-  	$obj = json_decode($response->getBody(), true);
-  	$obj = $obj['message']['body']['artist_list'];
+	$artistList = $this->getArtistListFromJSON($response);
+	$artistSuggestions = $this->createSuggestionsFromArtistList($artistList);
 
-    $artistSuggestions = array();
-    if (sizeof($obj) > 0) $artistSuggestions[0] = array("artistName" => $obj[0]['artist']['artist_name'], "artistId" => $obj[0]['artist']['artist_id']);
-    if (sizeof($obj) > 1) $artistSuggestions[1]= array("artistName" => $obj[1]['artist']['artist_name'], "artistId" => $obj[1]['artist']['artist_id']);
-    if (sizeof($obj) > 2) $artistSuggestions[2]= array("artistName" => $obj[2]['artist']['artist_name'], "artistId" => $obj[2]['artist']['artist_id']);
-    $view;
-
-    return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
- 
+	return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
   }
 
   public function getWordCloudList($artistId){
