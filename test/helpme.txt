@@ -1,0 +1,12 @@
+
+
+Code Coverage Report:     
+  2017-03-08 23:09:40     
+                          
+ Summary:                 
+  Classes:  0.00% (0/13)  
+  Methods:  9.68% (3/31)  
+  Lines:   13.33% (20/150)
+
+\App\Http\Controllers::MyController
+  Methods:  30.00% ( 3/10)   Lines:  19.80% ( 20/101)
