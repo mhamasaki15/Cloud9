@@ -21,3 +21,14 @@ Feature: Lyric Page
 		And the user has navigated through the wordCloudPage
 		And the user has navigated through the songListPage
 		Then the lyricsPage will display the backToWordCloud button and the backToSongList button
+
+	Scenario: Click backToWordCloud Button
+		Given the user is on the lyricsPage
+		When the user has clicked on the backToWordCloud Button
+		Then the user is navigated to the wordCloudPage
+		And the wordCloud page has the selected artist
+
+	Scenario: Click backToSongList Button
+		Given the user is on the lyricsPage
+		When the user has clicked on the BackToSongList button
+		Then the user is navigated to the songListPage
