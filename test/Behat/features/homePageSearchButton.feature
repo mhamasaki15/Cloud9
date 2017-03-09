@@ -3,12 +3,12 @@ Feature: Home Page Search Button
 	As a user
 	I want to be able to use the home page search button
 
-	Scenario: Button only clickable if search button enabled
+	Scenario: R1Button only clickable if search button enabled
 		Given I am on the home page
 		When search button is enabled
 		Then the search button is clickable
 
-	Scenario: Button takes user to word cloud page
+	Scenario: R2Button takes user to word cloud page
 		Given I am on the home page
 		And search button is clickable
 		When I click the search button

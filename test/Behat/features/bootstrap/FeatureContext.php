@@ -243,13 +243,13 @@ class FeatureContext extends BehatContext
      */
     public function eachSuggestionHasANameAndAnImage()
     {
-        throw Exception;
+        throw new Exception("No image found");
     }
 
     /**
      * @Given /^I am on the word cloud page$/
      */
-    public function iAmOnTheWordCloudPage()
+    public function iAmOnTheWordCloudPage2()
     {
         return true;
     }
@@ -371,7 +371,7 @@ class FeatureContext extends BehatContext
      */
     public function theUserClicksTheAddButton()
     {
-        throw Exception;
+        throw new Exception("Add button not enabled");
     }
 
     /**
@@ -403,7 +403,7 @@ class FeatureContext extends BehatContext
      */
     public function theUserClicksTheShareButton()
     {
-        throw Exception;
+        throw new Exception("Share not enabled");
     }
 
     /**
@@ -411,7 +411,7 @@ class FeatureContext extends BehatContext
      */
     public function theFacebookShareFeatureIsEnabled()
     {
-        return false;
+        throw new Exception("Facebook share not enabled");
     }
 
     /**
@@ -427,7 +427,7 @@ class FeatureContext extends BehatContext
      */
     public function theUserClicksTheSearchButton()
     {
-       throw Exception;
+       throw new Exception("Search not enabled");
     }
 
     /**
@@ -548,6 +548,174 @@ class FeatureContext extends BehatContext
     public function theUserIsNavigatedToTheSonglistpage()
     {
         return true;
+    }
+
+/**
+     * @Given /^I am on the lyric page$/
+     */
+    public function iAmOnTheLyricPage()
+    {
+        return true;
+    }
+
+    /**
+     * @When /^the user picks "([^"]*)" by "([^"]*)"$/
+     */
+    public function theUserPicksBy($arg1, $arg2)
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^the title has "([^"]*)" and "([^"]*)"$/
+     */
+    public function theTitleHasAnd($arg1, $arg2)
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^the title is "([^"]*)"$/
+     */
+    public function theTitleIs($arg1)
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^"([^"]*)" should be the top song$/
+     */
+    public function shouldBeTheTopSong($arg1)
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^songs should be ordered$/
+     */
+    public function songsShouldBeOrdered()
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^"([^"]*)" should be the top entry$/
+     */
+    public function shouldBeTheTopEntry($arg1)
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^suggestion menu appears$/
+     */
+    public function suggestionMenuAppears()
+    {
+        return true;
+    }
+
+    /**
+     * @Given /^(\d+) artists appear$/
+     */
+    public function artistsAppear($arg1)
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^the suggestion menu appears$/
+     */
+    public function theSuggestionMenuAppears()
+    {
+        return true;
+    }
+
+    /**
+     * @Given /^click a word$/
+     */
+    public function clickAWord()
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^navigate to the song list page$/
+     */
+    public function navigateToTheSongListPage()
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^no common words are displayed$/
+     */
+    public function noCommonWordsAreDisplayed()
+    {
+        return true;
+    }
+
+    /**
+     * @Given /^I am on the word cloud pahe$/
+     */
+    public function iAmOnTheWordCloudPage()
+    {
+        return true;
+    }
+
+    /**
+     * @When /^a valid word cloud is displayed$/
+     */
+    public function aValidWordCloudIsDisplayed()
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^the words are horizontal$/
+     */
+    public function theWordsAreHorizontal()
+    {
+        return true;
+    }
+
+    /**
+     * @When /^artist names are "([^"]*)" and "([^"]*)"$/
+     */
+    public function artistNamesAreAnd($arg1, $arg2)
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^"([^"]*)" is title$/
+     */
+    public function isTitle($arg1)
+    {
+        return true;
+    }
+
+    /**
+     * @Then /^add button is clickable$/
+     */
+    public function addButtonIsClickable()
+    {
+        throw new Exception("Add not clickable");
+    }
+
+    /**
+     * @Given /^image is part of post$/
+     */
+    public function imageIsPartOfPost()
+    {
+        throw new Exception("Image can't be added");
+    }
+
+    /**
+     * @Given /^user is logged in$/
+     */
+    public function userIsLoggedIn()
+    {
+        throw new Exception("User can't log in");
     }
 
 
