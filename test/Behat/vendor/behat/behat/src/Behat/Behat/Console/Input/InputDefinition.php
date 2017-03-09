@@ -24,7 +24,7 @@ class InputDefinition extends BaseDefinition
      *
      * @return string The synopsis
      */
-    public function getSynopsis()
+    public function getSynopsis($short=false)
     {
         $elements = array();
         $isSwitch = false;
@@ -154,4 +154,5 @@ class InputDefinition extends BaseDefinition
 
         return str_replace("\n", '', var_export($default, true));
     }
+
 }

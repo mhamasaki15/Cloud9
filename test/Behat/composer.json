@@ -8,7 +8,7 @@
     "behat/mink-selenium2-driver": "*",
     "facebook/webdriver": "dev-master"
   },
-  "minimum-stability": "dev",
+  
   "config": {
     "bin-dir": "bin/"
   }

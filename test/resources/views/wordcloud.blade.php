@@ -117,6 +117,8 @@ pageTitle {
           <br>
 
       </form>
-
+<button onclick="">Search</button>
+<button onclick="">Add</button>
+<button onclick="">Share</button>
 </div>
 </body>

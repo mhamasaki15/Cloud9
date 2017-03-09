@@ -4,7 +4,7 @@ Feature: Home Page
 	I want to be able to use the homepage
 
 	Scenario: When no valid artist populates the input box
-		Given I am on the home pahe
+		Given I am on the home page
 		When "kan1" is in the input box
 		Then the search button should not be enabled
 
