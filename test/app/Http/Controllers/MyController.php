@@ -14,15 +14,14 @@ class MyController extends Controller {
 /******************************/
 
 //Takes JSON string response, converts to PHP array, and returns the artist list
-  private function getArtistListFromJSON($json_string){
-	$json_string = json_decode($json_string->getBody(), true);
-	return $json_string['message']['body']['artist_list'];
+  public function getArtistListFromJSON($json_body){
+	return $json_body['message']['body']['artist_list'];
   }
 
 
 //Takes the artist list array, and formats it into an array of max size 3
 //in the format that the front end uses
-  private function createSuggestionsFromArtistList($a_l){
+  public function createSuggestionsFromArtistList($a_l){
 	$artistSuggestions = array();
 	for ($i=0; $i<sizeof($a_l) && $i <= 2; $i++){
 		$currentArtist = $a_l[$i]['artist'];
@@ -36,7 +35,6 @@ class MyController extends Controller {
 	return $artistSuggestions;
   }
 
-
 //Route that is called to get artist suggestions based off the input text
 //Should return the view of the home page with the suggestions passed in
 //as variables
@@ -47,52 +45,56 @@ class MyController extends Controller {
   	]);
   	$response = $client->get('artist.search?q_artist=' . $name . '&page_size=3&s_artist_rating=DESC' . $this->verification);
 
+	$response= json_decode($response->getBody(), true);
 	$artistList = $this->getArtistListFromJSON($response);
 	$artistSuggestions = $this->createSuggestionsFromArtistList($artistList);
 
 	return view('homepage', ['artistSuggestions' => $artistSuggestions, 'textString' => $name]);
   }
 
-  public function getWordCloudList($artistId){
-    $client = new Client([
-      'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
-      'timeout' => 2.0
-    ]);
-    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=5&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
 
-    $trackList = json_decode($response->getBody(), true);
-    $trackList = $trackList['message']['body']['track_list'];
-    $artistName = $trackList[0]['track']['artist_name'];
 
-    $allSongLyrics = " ";
-    for ($i = 0; $i < count($trackList); $i++){
-      $response = $client->get('track.lyrics.get?track_id=' . $trackList[$i]['track']['track_id'] . $this->verification);
 
-      $songLyrics = json_decode($response->getBody(), true);
-      $songLyrics = $songLyrics['message']['body']['lyrics']['lyrics_body'];
+  public function requestSongLyrics($track_id){
+  	$client = new Client([
+  		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
+  		'timeout' => 2.0
+  	]);
+	$response = $client->get('track.lyrics.get?track_id=' . $track_id . $this->verification);
+	$songLyrics = json_decode($response->getBody(), true);
+	return $songLyrics['message']['body']['lyrics']['lyrics_body'];
+  }
 
-      //getting rid of common stuff.
-      $toReplace = array(".", ")", "(", "\"", "]", "[", "1409614316181", "\n", ',', '******* This Lyrics is NOT for Commercial use *******'); 
-      $songLyrics = str_replace($toReplace, " ", $songLyrics);
-      $songLyrics = strtolower($songLyrics);
+  public function getAllArtistLyrics($trackList){
+	$allSongLyrics = " ";
+    	for ($i = 0; $i < count($trackList); $i++){
+		$songLyrics = $this->requestSongLyrics($trackList[$i]['track']['track_id']);
 
-      $commonEnglishWords = array(" a ", " i ", " i'm ", " it's ", " do ", " am ", " the ", " to ", " in ", " at ", " is ", " it ", " was ", " are ", " that ", " of ", " be ", " at ", " or ", " by ", " this ", " and ", " you ", " me ", " some ", " how ", " my ", " on ", " they ", " get ", " we ", " so ", " but "); 
-      $songLyrics = str_replace($commonEnglishWords, " ", $songLyrics);
+      	//getting rid of common stuff.
+		$toReplace = array(".", ")", "(", "\"", "]", "[", "1409614316181", "\n", ',', '******* This Lyrics is NOT for Commercial use *******'); 
+		$songLyrics = str_replace($toReplace, " ", $songLyrics);
+		$songLyrics = strtolower($songLyrics);
 
-      $allSongLyrics = $allSongLyrics . " " . $songLyrics;
-    }
+      		$commonEnglishWords = array(" a ", " i ", " i'm ", " it's ", " do ", " am ", " the ", " to ", " in ", " at ", " is ", " it ", " was ", " are ", " that ", " of ", " be ", " at ", " or ", " by ", " this ", " and ", " you ", " me ", " some ", " how ", " my ", " on ", " they ", " get ", " we ", " so ", " but "); 
+    		$songLyrics = str_replace($commonEnglishWords, " ", $songLyrics);
 
+      		$allSongLyrics = $allSongLyrics . " " . $songLyrics;
+	    }
+	return $allSongLyrics;
+  }
+
+  public function createWordListFromLyrics($allSongLyrics){
+    echo $allSongLyrics;
     $wordList = explode(" ", $allSongLyrics);
     $wordList = array_filter($wordList);
     $wordList = array_count_values($wordList);
     arsort($wordList);
     $wordList = array_slice($wordList, 0, 250, true);
-/*
-    echo '<pre>';
-    print_r($wordList);
-    echo '</pre>';
-*/
+   
+    return $wordList;
+  } 
 
+  public function createWordCloudString($wordList, $artistId){
     $wordCloudString = "";
     $startingATag = "<a style='color:";
     $fontSizeString = "; font-size:";
@@ -115,6 +117,25 @@ class MyController extends Controller {
       $toAdd = $startingATag . $color . $fontSizeString . $fontSize . $linkString . $key . "/" . $artistId . "'> " . $key . " </a>";
       $wordCloudString = $wordCloudString . $toAdd;
     }
+
+    return $wordCloudString;
+  }
+
+
+  public function getWordCloudList($artistId){
+    $client = new Client([
+      'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
+      'timeout' => 2.0
+    ]);
+    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=5&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
+
+    $trackList = json_decode($response->getBody(), true);
+    $trackList = $trackList['message']['body']['track_list'];
+    $artistName = $trackList[0]['track']['artist_name'];
+
+    $allSongLyrics = $this->getAllArtistLyrics($trackList);
+    $wordList = $this->createWordListFromLyrics($allSongLyrics);
+    $wordCloudString = $this->createWordCloudString($wordList, $artistId);
 
     $wordList = json_encode($wordList);
 
