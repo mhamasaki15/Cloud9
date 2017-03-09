@@ -84,7 +84,6 @@ class MyController extends Controller {
   }
 
   public function createWordListFromLyrics($allSongLyrics){
-    echo $allSongLyrics;
     $wordList = explode(" ", $allSongLyrics);
     $wordList = array_filter($wordList);
     $wordList = array_count_values($wordList);
@@ -143,22 +142,14 @@ class MyController extends Controller {
   }
 
 
-  public function getSongList($word, $artistId){
-    $client = new Client([
-  		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
-  		'timeout' => 2.0
-  	]);
-    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=5&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
-
-    $trackList = json_decode($response->getBody(), true);
-    $trackList = $trackList['message']['body']['track_list'];
-
+  public function getSongListFromTrackList($trackList, $artistId, $word){
+var_export($trackList);
+echo $artistId;
+echo $word;
     $songList = array();
 
     for ($i = 0; $i < count($trackList); $i++){
-      $response = $client->get('track.lyrics.get?track_id=' . $trackList[$i]['track']['track_id'] . $this->verification);
-      $songLyrics= json_decode($response->getBody(), true);
-      $songLyrics = $songLyrics['message']['body']['lyrics']['lyrics_body'];
+      $songLyrics = $this->requestSongLyrics($trackList[$i]['track']['track_id']);
 
       $toReplace = array(".", ")", "(", "\"", "]", "[", "1409614316181", "\n", ',', '******* This Lyrics is NOT for Commercial use *******'); 
       $songLyrics = str_replace($toReplace, " ", $songLyrics);
@@ -169,6 +160,20 @@ class MyController extends Controller {
     }
 
     arsort($songList);
+    return $songList;
+  }
+
+  public function getSongList($word, $artistId){
+    $client = new Client([
+  		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
+  		'timeout' => 2.0
+  	]);
+    $response = $client->get('track.search?f_artist_id=' . $artistId . '&page_size=5&page=1&f_lyrics_language=en&f_has_lyrics=true' . $this->verification);
+
+    $trackList = json_decode($response->getBody(), true);
+    $trackList = $trackList['message']['body']['track_list'];
+    $songList = $this->getSongListFromTrackList($trackList, $artistId, $word);
+
     $songList = json_encode($songList);
     $trackList = json_encode($trackList);
 
