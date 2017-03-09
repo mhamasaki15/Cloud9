@@ -143,9 +143,6 @@ class MyController extends Controller {
 
 
   public function getSongListFromTrackList($trackList, $artistId, $word){
-var_export($trackList);
-echo $artistId;
-echo $word;
     $songList = array();
 
     for ($i = 0; $i < count($trackList); $i++){
@@ -180,6 +177,16 @@ echo $word;
     return view('songlist', ['trackList' => $trackList, 'songList' => $songList, 'word' => $word, 'artistId' => $artistId]);
   }
 
+  public function parseLyrics($lyrics){
+    $lyrics = str_replace("******* This Lyrics is NOT for Commercial use *******", "", $lyrics);
+    $lyrics = str_replace("(1409614310238)", "", $lyrics);
+    $lyrics = str_replace("\""," ", $lyrics);
+    $lyrics = str_replace("\n", " <br> ", $lyrics);
+
+    return $lyrics;
+  }
+
+
   public function getSongLyrics($songName, $artistId, $word){
     $client = new Client([
   		'base_uri' => 'http://api.musixmatch.com/ws/1.1/',
@@ -191,14 +198,8 @@ echo $word;
     $trackName = $track['track_name'];
     $artistName = $track['artist_name'];
     
-    $response = $client->get('track.lyrics.get?track_id=' . $track['track_id'] . $this->verification);
-    $lyrics = json_decode($response->getBody(), true);    
-    $lyrics = $lyrics['message']['body']['lyrics']['lyrics_body'];
-    
-    $lyrics = str_replace("******* This Lyrics is NOT for Commercial use *******", "", $lyrics);
-    $lyrics = str_replace("(1409614310238)", "", $lyrics);
-    $lyrics = str_replace("\""," ", $lyrics);
-    $lyrics = str_replace("\n", " <br> ", $lyrics);
+    $lyrics = $this->requestSongLyrics($track['track_id']); 
+    $lyrics = $this->parseLyrics($lyrics);
 
     return view('lyrics', ['lyrics' => $lyrics, 'word' => $word, 'artistId' => $artistId, 'artistName' => $artistName, 'songTitle' => $trackName]);
   }
